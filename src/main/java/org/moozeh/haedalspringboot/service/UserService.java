@@ -1,7 +1,7 @@
 package org.moozeh.haedalspringboot.service;
 
 import org.moozeh.haedalspringboot.domain.User;
-import org.moozeh.haedalspringboot.dto.UserSimpleResponseDto;
+import org.moozeh.haedalspringboot.dto.response.UserSimpleResponseDto;
 import org.moozeh.haedalspringboot.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,7 +18,7 @@ public class UserService {
     public UserSimpleResponseDto saveUser(User newUser) {
         // 중복 회원 검증
         if (userRepository.existsByUsername(newUser.getUsername())) {
-            throw new IllegalStateException("중복되는 username입니다.");
+            throw new IllegalStateException("중복되는 username 입니다.");
         }
 
         userRepository.save(newUser);

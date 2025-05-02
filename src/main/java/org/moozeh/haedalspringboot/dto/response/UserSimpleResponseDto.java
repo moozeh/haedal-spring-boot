@@ -1,4 +1,4 @@
-package org.moozeh.haedalspringboot.dto;
+package org.moozeh.haedalspringboot.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

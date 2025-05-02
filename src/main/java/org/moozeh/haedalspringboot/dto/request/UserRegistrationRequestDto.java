@@ -1,4 +1,4 @@
-package org.moozeh.haedalspringboot.dto;
+package org.moozeh.haedalspringboot.dto.request;
 
 import lombok.Getter;
 
