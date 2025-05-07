@@ -4,22 +4,19 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+import lombok.RequiredArgsConstructor;
 import org.moozeh.haedalspringboot.domain.User;
 import org.moozeh.haedalspringboot.dto.request.UserUpdateRequestDto;
 import org.moozeh.haedalspringboot.dto.response.UserDetailResponseDto;
 import org.moozeh.haedalspringboot.dto.response.UserSimpleResponseDto;
 import org.moozeh.haedalspringboot.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
+@RequiredArgsConstructor
 public class UserService {
     private final UserRepository userRepository;
-
-    @Autowired
-    public UserService(UserRepository userRepository) {
-        this.userRepository = userRepository;
-    }
+    private final ImageService imageService;
 
     public UserSimpleResponseDto saveUser(User newUser) {
         // 중복 회원 검증
@@ -32,24 +29,27 @@ public class UserService {
     }
 
     public UserSimpleResponseDto convertUserToSimpleDto(User currentUser, User targetUser) {
+        String imageUrl = targetUser.getImageUrl();
+        String imageData = imageService
+            .encodeImageToBase64(System.getProperty("user.dir") + "/src/main/resources/static/" + imageUrl);
         return new UserSimpleResponseDto(
             targetUser.getId(),
             targetUser.getUsername(),
             targetUser.getName(),
-            null,
+            imageData,
             false
         );
     }
 
     public UserDetailResponseDto convertUserToDetailDto(User currentUser, User targetUser) {
         String imageUrl = targetUser.getImageUrl();
-        // String imageData = imageService.encodeImageToBase64
-        //    (System.getProperty("user.dir") + "/src/main/resources/static/" + imageUrl);
+        String imageData = imageService
+            .encodeImageToBase64(System.getProperty("user.dir") + "/src/main/resources/static/" + imageUrl);
         return new UserDetailResponseDto(
             targetUser.getId(),
             targetUser.getUsername(),
             targetUser.getName(),
-            null,
+            imageData,
             false,
             targetUser.getBio(),
             targetUser.getJoinedAt().format(DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm")),
