@@ -7,7 +7,9 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import java.time.LocalDateTime;
+import java.util.List;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -33,8 +35,8 @@ public class Post {
     @Column(name = "created_at", nullable = false)
     private LocalDateTime createdAt;
 
-    //@OneToMany(mappedBy = "post")
-    //private List<Like> likes;
+    @OneToMany(mappedBy = "post")
+    private List<Like> likes;
 
     public Post(User user, String content, String imageUrl) {
         this.user = user;
