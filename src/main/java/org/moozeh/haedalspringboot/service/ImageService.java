@@ -40,4 +40,19 @@ public class ImageService {
             return null;
         }
     }
+
+    public String savePostImage(MultipartFile image) throws IOException {
+        if (image.isEmpty()) {
+            throw new IllegalArgumentException("비어있는 이미지 파일 입니다.");
+        }
+
+        String timestamp = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmssSSS"));
+        String uniqueImageName = timestamp + "_" + image.getOriginalFilename();
+
+        Path filePath = uploadDir.resolve("postImages").resolve(uniqueImageName);
+        Files.createDirectories(filePath.getParent());
+        image.transferTo(filePath);
+
+        return "postImages/" + uniqueImageName;
+    }
 }
